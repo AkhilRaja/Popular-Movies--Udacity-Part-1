@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private GoogleApiClient client;
     private static final String TAG = MainActivity.class.getSimpleName();
-    private final static String API_KEY = "bb7151040747a331befa1dec25400c7b";
+    private final static String API_KEY = "";
 
     ApiInterface apiService =
             ApiClient.getClient().create(ApiInterface.class);
