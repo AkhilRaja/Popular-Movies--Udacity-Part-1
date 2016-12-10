@@ -1,8 +1,12 @@
 package com.rebolt.ark.popularmoviesone.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -36,6 +40,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.support.v7.recyclerview.R.attr.layoutManager;
+
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -44,9 +50,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * ATTENTION: Add the API Key here at the bottom.
      */
-    private GoogleApiClient client;
     private static final String TAG = MainActivity.class.getSimpleName();
-    private final static String API_KEY = "";
+    private final static String API_KEY = "bb7151040747a331befa1dec25400c7b";
 
     ApiInterface apiService =
             ApiClient.getClient().create(ApiInterface.class);
@@ -57,28 +62,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-
         if (API_KEY.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please obtain your API KEY first from themoviedb.org", Toast.LENGTH_LONG).show();
             return;
         }
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         recyclerView.setLayoutManager(mLayoutManager);
 
 
-
-
-
         Call<MoviesResponse> call = apiService.getTopRatedMovies(API_KEY);
-        
+
         call.enqueue(new Callback<MoviesResponse>() {
             @Override
-            public void onResponse(Call<MoviesResponse>call, Response<MoviesResponse> response) {
+            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                 int statuscode = response.code();
                 movieList = response.body().getResults();
-                adapter = new MovieAdapter(getApplicationContext(),movieList);
-                recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
+                adapter = new MovieAdapter(getApplicationContext(), movieList);
                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                 recyclerView.setAdapter(adapter);
 
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MoviesResponse>call, Throwable t) {
+            public void onFailure(Call<MoviesResponse> call, Throwable t) {
                 // Log error here since request failed
                 Log.e(TAG, t.toString());
             }
@@ -94,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.addOnItemTouchListener(
                 new RecyclerViewTouch(getApplicationContext(), new RecyclerViewTouch.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         // TODO Handle item click
 
                         Intent intent = new Intent(getApplicationContext(), Detail.class);
@@ -108,20 +109,18 @@ public class MainActivity extends AppCompatActivity {
 
         initCollapsingToolbar();
 
-        
+
         try {
             Glide.with(this).load(R.drawable.cover).into((ImageView) findViewById(R.id.backdrop));
-        } catch (Exception e) {
-            e.printStackTrace();
             TextView smalltxt = (TextView) findViewById(R.id.movie_desc_small);
             TextView bigtxt = (TextView) findViewById(R.id.movie_desc_big);
             smalltxt.setText(R.string.Movie_small_desc_top);
             bigtxt.setText(R.string.Movie_big_desc_top);
 
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+
     }
 
     ////This animation toolbar
@@ -160,41 +159,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
-
-        private int spanCount;
-        private int spacing;
-        private boolean includeEdge;
-
-        public GridSpacingItemDecoration(int spanCount, int spacing, boolean includeEdge) {
-            this.spanCount = spanCount;
-            this.spacing = spacing;
-            this.includeEdge = includeEdge;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            int position = parent.getChildAdapterPosition(view); // item position
-            int column = position % spanCount; // item column
-
-            if (includeEdge) {
-                outRect.left = spacing - column * spacing / spanCount; // spacing - column * ((1f / spanCount) * spacing)
-                outRect.right = (column + 1) * spacing / spanCount; // (column + 1) * ((1f / spanCount) * spacing)
-
-                if (position < spanCount) { // top edge
-                    outRect.top = spacing;
-                }
-                outRect.bottom = spacing; // item bottom
-            } else {
-                outRect.left = column * spacing / spanCount; // column * ((1f / spanCount) * spacing)
-                outRect.right = spacing - (column + 1) * spacing / spanCount; // spacing - (column + 1) * ((1f /    spanCount) * spacing)
-                if (position >= spanCount) {
-                    outRect.top = spacing; // item top
-                }
-            }
-        }
-    }
-
 
     private int dpToPx(int dp) {
         Resources r = getResources();
@@ -227,7 +191,6 @@ public class MainActivity extends AppCompatActivity {
                     int statuscode = response.code();
                     movieList = response.body().getResults();
                     adapter = new MovieAdapter(getApplicationContext(),movieList);
-                    recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);
 
@@ -259,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
                     int statuscode = response.code();
                     movieList = response.body().getResults();
                     adapter = new MovieAdapter(getApplicationContext(),movieList);
-                    recyclerView.addItemDecoration(new GridSpacingItemDecoration(2, dpToPx(10), true));
                     recyclerView.setItemAnimator(new DefaultItemAnimator());
                     recyclerView.setAdapter(adapter);
 
