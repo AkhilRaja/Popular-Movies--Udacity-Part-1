@@ -142,7 +142,8 @@ public class Detail extends AppCompatActivity {
                 params2.setMarginStart(100);
                 layout.addView(textView);
 
-                if(reviewModel.size()>0&&reviewModel!= null)
+                if(reviewModel!= null)
+                    if(reviewModel.size()>0)
                 {
                     TextView textView1 = new TextView(getApplicationContext());
                     textView1.setText(reviewModel.get(0).getContent());
@@ -211,6 +212,11 @@ public class Detail extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
 }
