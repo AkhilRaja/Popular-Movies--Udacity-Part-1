@@ -40,7 +40,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, count;
-        public ImageView thumbnail, overflow;
+        public ImageView thumbnail;
 
         public MyViewHolder(View view) {
             super(view);
@@ -63,7 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         holder.title.setText(movieList.get(position).getTitle());
-        holder.count.setText(movieList.get(position).getVoteAverage().toString());
+        holder.count.setText(""+movieList.get(position).getVoteAverage());
 
 
         // loading album cover using Glide library

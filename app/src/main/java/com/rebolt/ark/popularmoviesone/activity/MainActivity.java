@@ -1,12 +1,19 @@
 package com.rebolt.ark.popularmoviesone.activity;
 
+import android.app.LoaderManager;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.AppBarLayout;
@@ -28,6 +35,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.rebolt.ark.popularmoviesone.MovieContract;
 import com.rebolt.ark.popularmoviesone.model.Movie;
 import com.rebolt.ark.popularmoviesone.adapter.MovieAdapter;
 import com.rebolt.ark.popularmoviesone.R;
@@ -35,6 +43,8 @@ import com.rebolt.ark.popularmoviesone.rest.ApiClient;
 import com.rebolt.ark.popularmoviesone.rest.ApiInterface;
 import com.rebolt.ark.popularmoviesone.model.MoviesResponse;
 
+import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -42,8 +52,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.support.v7.recyclerview.R.attr.layoutManager;
+import static com.rebolt.ark.popularmoviesone.MovieContract.BASE_CONTENT_URI;
+import static com.rebolt.ark.popularmoviesone.MovieContract.PATH_MOVIE;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private RecyclerView recyclerView;
     private MovieAdapter adapter;
@@ -53,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private static final String TAG = MainActivity.class.getSimpleName();
     private final static String API_KEY = "bb7151040747a331befa1dec25400c7b";
+    private final static int Loader_id = 9726;
 
     ApiInterface apiService =
             ApiClient.getClient().create(ApiInterface.class);
@@ -71,28 +84,81 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         recyclerView.setLayoutManager(mLayoutManager);
 
+        Cursor checkEmpty = getContentResolver().query(MovieContract.Movie.CONTENT_URI,null,null,null,null);
 
-        Call<MoviesResponse> call = apiService.getTopRatedMovies(API_KEY);
+        if(checkEmpty.getCount() == 0) {
+            Call<MoviesResponse> call = apiService.getTopRatedMovies(API_KEY);
+            call.enqueue(new Callback<MoviesResponse>() {
+                @Override
+                public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                    int i = 0;
+                    int statuscode = response.code();
+                    movieList = response.body().getResults();
+                    // Log.d(TAG,""+movieList.size());
+                    ContentValues contentValues = new ContentValues();
+                    while (i < movieList.size()) {
+                        contentValues.put(MovieContract.Movie.COLUMN_ID, movieList.get(i).getId());
+                        contentValues.put(MovieContract.Movie.COLUMN_TITLE, movieList.get(i).getTitle());
+                        contentValues.put(MovieContract.Movie.COLUMN_VOTE, movieList.get(i).getVoteAverage());
+                        contentValues.put(MovieContract.Movie.COLUMN_POSTER, movieList.get(i).getPosterPath());
+                        contentValues.put(MovieContract.Movie.COLUMN_BACKDROP, movieList.get(i).getBackdropPath());
+                        contentValues.put(MovieContract.Movie.COLUMN_OVERVIEW, movieList.get(i).getOverview());
+                        contentValues.put(MovieContract.Movie.COLUMN_DATE, movieList.get(i).getReleaseDate());
+                        contentValues.put(MovieContract.Movie.COLUMN_TYPE, 1);
 
-        call.enqueue(new Callback<MoviesResponse>() {
-            @Override
-            public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
-                int statuscode = response.code();
-                movieList = response.body().getResults();
-                adapter = new MovieAdapter(getApplicationContext(), movieList);
-                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                recyclerView.setAdapter(adapter);
+                        getContentResolver().insert(MovieContract.Movie.CONTENT_URI, contentValues);
+                        i++;
+                    }
 
-                Log.d(TAG, "Number of movies received: " + movieList);
-            }
+                    Log.d(TAG, "Successfully Written to the database !!");
+                    Load_manager_data();
 
-            @Override
-            public void onFailure(Call<MoviesResponse> call, Throwable t) {
-                // Log error here since request failed
-                Log.e(TAG, t.toString());
-            }
-        });
+                }
 
+                @Override
+                public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                    // Log error here since request failed
+                    Log.e(TAG, t.toString());
+                }
+            });
+            Call<MoviesResponse> call2 = apiService.getPopularMovies(API_KEY);
+            call2.enqueue(new Callback<MoviesResponse>() {
+                @Override
+                public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
+                    int i = 0;
+                    int statuscode = response.code();
+                    movieList = response.body().getResults();
+                    // Log.d(TAG,""+movieList.size());
+                    ContentValues contentValues = new ContentValues();
+                    while (i < movieList.size()) {
+                        contentValues.put(MovieContract.Movie.COLUMN_ID, movieList.get(i).getId());
+                        contentValues.put(MovieContract.Movie.COLUMN_TITLE, movieList.get(i).getTitle());
+                        contentValues.put(MovieContract.Movie.COLUMN_VOTE, movieList.get(i).getVoteAverage());
+                        contentValues.put(MovieContract.Movie.COLUMN_POSTER, movieList.get(i).getPosterPath());
+                        contentValues.put(MovieContract.Movie.COLUMN_BACKDROP, movieList.get(i).getBackdropPath());
+                        contentValues.put(MovieContract.Movie.COLUMN_OVERVIEW, movieList.get(i).getOverview());
+                        contentValues.put(MovieContract.Movie.COLUMN_DATE, movieList.get(i).getReleaseDate());
+                        contentValues.put(MovieContract.Movie.COLUMN_TYPE, 2);
+                        getContentResolver().insert(MovieContract.Movie.CONTENT_URI, contentValues);
+                        i++;
+
+                    }
+
+                    Log.d(TAG, "Successfully Written to the database !!");
+
+                }
+
+                @Override
+                public void onFailure(Call<MoviesResponse> call, Throwable t) {
+                    // Log error here since request failed
+                    Log.e(TAG, t.toString());
+                }
+            });
+
+        }
+        else{
+            getLoaderManager().initLoader(Loader_id, null,this);
+        }
         recyclerView.addOnItemTouchListener(
                 new RecyclerViewTouch(getApplicationContext(), new RecyclerViewTouch.OnItemClickListener() {
                     @Override
@@ -110,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
 
         initCollapsingToolbar();
 
-
         try {
             Glide.with(this).load(R.drawable.cover).into((ImageView) findViewById(R.id.backdrop));
             TextView smalltxt = (TextView) findViewById(R.id.movie_desc_small);
@@ -123,7 +188,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-
+    private void Load_manager_data()
+    {
+        getLoaderManager().initLoader(Loader_id,null,this);
+    }
     ////This animation toolbar
     private void initCollapsingToolbar() {
         final CollapsingToolbarLayout collapsingToolbar =
@@ -159,13 +227,6 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
     }
 
-
-
-    private int dpToPx(int dp) {
-        Resources r = getResources();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -182,64 +243,11 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-
-
-            Call<MoviesResponse> call = apiService.getPopularMovies(API_KEY);
-
-            call.enqueue(new Callback<MoviesResponse>() {
-                @Override
-                public void onResponse(Call<MoviesResponse>call, Response<MoviesResponse> response) {
-                    int statuscode = response.code();
-                    movieList = response.body().getResults();
-                    adapter = new MovieAdapter(getApplicationContext(),movieList);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(adapter);
-
-                    TextView smalltxt = (TextView) findViewById(R.id.movie_desc_small);
-                    TextView bigtxt = (TextView) findViewById(R.id.movie_desc_big);
-
-                    smalltxt.setText(R.string.Movie_small_desc_most);
-                    bigtxt.setText(R.string.Movie_big_desc_most);
-
-                    Log.d(TAG, "Number of movies received: " + movieList.get(1).getTitle());
-                }
-
-                @Override
-            public void onFailure(Call<MoviesResponse>call, Throwable t) {
-                // Log error here since request failed
-                Log.e(TAG, t.toString());
-            }
-        });
+            getLoaderManager().initLoader(1,null,this);
             return true;
         }
         if (id == R.id.action_setting) {
-
-
-            Call<MoviesResponse> call = apiService.getTopRatedMovies(API_KEY);
-
-            call.enqueue(new Callback<MoviesResponse>() {
-                @Override
-                public void onResponse(Call<MoviesResponse>call, Response<MoviesResponse> response) {
-                    int statuscode = response.code();
-                    movieList = response.body().getResults();
-                    adapter = new MovieAdapter(getApplicationContext(),movieList);
-                    recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    recyclerView.setAdapter(adapter);
-
-                    TextView smalltxt = (TextView) findViewById(R.id.movie_desc_small);
-                    TextView bigtxt = (TextView) findViewById(R.id.movie_desc_big);
-                    smalltxt.setText(R.string.Movie_small_desc_top);
-                    bigtxt.setText(R.string.Movie_big_desc_top);
-
-                    Log.d(TAG, "Number of movies received: " + movieList.get(1).getTitle());
-                }
-
-                @Override
-                public void onFailure(Call<MoviesResponse>call, Throwable t) {
-                    // Log error here since request failed
-                    Log.e(TAG, t.toString());
-                }
-            });
+            getLoaderManager().initLoader(2,null,this);
             return true;
         }
 
@@ -254,5 +262,78 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+
+        /*                   // Log.d(TAG, "Number of movies received: Hello : "+ movieList);
+                    String [] args = {"372058"};
+                    Uri uri = MovieContract.Movie.CONTENT_URI.buildUpon().appendPath("372058").build();
+
+                    //This calls all of the Movies
+                    //Cursor cursor = getContentResolver().query(MovieContract.Movie.CONTENT_URI,null, MovieContract.Movie.COLUMN_ID + " = ? ",args,null);
+
+                    //This would call only the required movie
+                    Cursor cursor = getContentResolver().query(uri,null, MovieContract.Movie.COLUMN_ID + " = ? ",args,null);
+
+                    //String data = cursor.getString(cursor.getColumnIndex("_id"));
+                    //Log.d(TAG,data);
+        */
+        Uri uri = MovieContract.Movie.CONTENT_URI.buildUpon().appendPath("i").build();
+        CursorLoader cursorLoader = new CursorLoader(getApplicationContext());
+        String [] args1 = {"1"};
+        String [] args2 = {"2"};
+
+        if(i == 1)
+        {
+            cursorLoader = new CursorLoader(getApplicationContext(),uri,null,MovieContract.Movie.COLUMN_TYPE + "=? ",args1,null);
+        }
+
+        else if (i == 2)
+        {
+            cursorLoader = new CursorLoader(getApplicationContext(),uri,null,MovieContract.Movie.COLUMN_TYPE + "=? ",args2,null);
+        }
+        else if(i == Loader_id)
+        {
+            cursorLoader = new CursorLoader(getApplicationContext(),uri,null,null,null,null);
+        }
+        return cursorLoader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
+        List<Movie> movieList2 = new ArrayList<>();
+
+        Log.d(TAG + "Cursor : ",""+cursor.getCount());
+
+        if (cursor.moveToFirst()&& cursor.getCount()>0){
+            do{
+                // String data = cursor.getString(cursor.getColumnIndex(MovieContract.Movie.COLUMN_TITLE));
+                // Log.d(TAG,data);
+                // do what ever you want here
+                movieList2.add(new Movie(
+                        cursor.getString(cursor.getColumnIndex("poster_path")),
+                        cursor.getString(cursor.getColumnIndex("overview")),
+                        cursor.getInt(cursor.getColumnIndex("_id")),
+                        cursor.getString(cursor.getColumnIndex("title")),
+                        cursor.getString(cursor.getColumnIndex("backdrop_path")),
+                        cursor.getDouble(cursor.getColumnIndex("vote_count")))
+                );
+            }while(cursor.moveToNext());
+
+        }
+        Log.d(TAG,"MovieList Size  = "+movieList2.size());
+        adapter = new MovieAdapter(getApplicationContext(), movieList2);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+
+
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
+
     }
 }

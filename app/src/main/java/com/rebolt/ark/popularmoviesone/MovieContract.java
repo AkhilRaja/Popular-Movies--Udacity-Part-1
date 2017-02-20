@@ -27,10 +27,6 @@ public class MovieContract {
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_MOVIE).build();
 
-                        public static final String CONTENT_TYPE =
-                                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE;
-                public static final String CONTENT_ITEM_TYPE =
-                                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_MOVIE;
 
 
         public static final String TABLE_NAME = "movie";
@@ -41,7 +37,7 @@ public class MovieContract {
         public static final String COLUMN_BACKDROP = "backdrop_path";
         public static final String COLUMN_OVERVIEW = "overview";
         public static final String COLUMN_DATE = "date";
-        public static final String COLUMN_CONTENT = "content";
+        public static final String COLUMN_TYPE = "type";
 
 
         public static final String DATABASE_CREATE = "create table "
@@ -50,11 +46,11 @@ public class MovieContract {
                 + COLUMN_ID + " integer primary key, "
                 + COLUMN_TITLE + " text not null, "
                 + COLUMN_VOTE + " integer not null,"
-                + COLUMN_POSTER + " text not null"
+                + COLUMN_POSTER + " text not null,"
                 + COLUMN_BACKDROP + " text not null,"
-                + COLUMN_OVERVIEW + " text not null"
+                + COLUMN_OVERVIEW + " text not null,"
                 + COLUMN_DATE + " text not null,"
-                + COLUMN_CONTENT + " text not null"
+                + COLUMN_TYPE + " integer not null "
                 + ");";
 
 
@@ -63,12 +59,6 @@ public class MovieContract {
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_VIDEO).build();
-
-        public static final String CONTENT_TYPE =
-                ContentResolver.CURSOR_DIR_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_VIDEO;
-        public static final String CONTENT_ITEM_TYPE =
-                ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" + CONTENT_AUTHORITY + "/" + PATH_VIDEO;
-
 
 
         public static final String TABLE_NAME = "video";
@@ -81,8 +71,8 @@ public class MovieContract {
                 + "("
                 + COLUMN_ID + " integer primary key autoincrement, "
                 + COLUMN_KEY+ " text not null, "
-                + COLUMN_MID+ "integer not null ,"+
-                "foreign key" + "(" + COLUMN_MID + ")" + " REFERENCES " + TABLE_NAME + "(" + COLUMN_ID + ")"
+                + COLUMN_MID+ " integer not null ,"+
+                "foreign key" + "(" + COLUMN_MID + ")" + " REFERENCES " + MovieContract.Movie.TABLE_NAME
                 + ");";
 
     }
