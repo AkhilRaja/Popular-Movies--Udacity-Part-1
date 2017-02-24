@@ -1,23 +1,30 @@
 package com.rebolt.ark.popularmoviesone.adapter;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.nfc.Tag;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.rebolt.ark.popularmoviesone.MovieContract;
 import com.rebolt.ark.popularmoviesone.R;
 import com.rebolt.ark.popularmoviesone.activity.MainActivity;
 import com.rebolt.ark.popularmoviesone.model.Movie;
 
 import java.util.List;
+
+import static java.security.AccessController.getContext;
 
 /**
  * Created by pakhi on 16-08-2016.
@@ -41,9 +48,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView title, count;
         public ImageView thumbnail;
+        public ImageButton imageButton;
 
         public MyViewHolder(View view) {
             super(view);
+            imageButton = (ImageButton) view.findViewById(R.id.favorite_button);
             title = (TextView) view.findViewById(R.id.title);
             count = (TextView) view.findViewById(R.id.count);
             thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
@@ -60,12 +69,29 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
 
         holder.title.setText(movieList.get(position).getTitle());
         holder.count.setText(""+movieList.get(position).getVoteAverage());
+        holder.imageButton.setOnClickListener(new View.OnClickListener() {
+            ContentValues contentValues2 = new ContentValues();
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext, "Favourite Added!",
+                        Toast.LENGTH_LONG).show();
+                contentValues2.put(MovieContract.Favourite.COLUMN_ID, movieList.get(position).getId());
+                contentValues2.put(MovieContract.Favourite.COLUMN_TITLE, movieList.get(position).getTitle());
+                contentValues2.put(MovieContract.Favourite.COLUMN_VOTE, movieList.get(position).getVoteAverage());
+                contentValues2.put(MovieContract.Favourite.COLUMN_POSTER, movieList.get(position).getPosterPath());
+                contentValues2.put(MovieContract.Favourite.COLUMN_BACKDROP, movieList.get(position).getBackdropPath());
+                contentValues2.put(MovieContract.Favourite.COLUMN_OVERVIEW, movieList.get(position).getOverview());
 
+                mContext.getContentResolver().insert(MovieContract.Favourite.CONTENT_URI, contentValues2);
 
+                Log.d("S","Here"+movieList.get(position).getId()+movieList.get(position).getTitle()+movieList.get(position).getVoteAverage()
+                + movieList.get(position).getBackdropPath()+movieList.get(position).getOverview());
+            }
+        });
         // loading album cover using Glide library
         Glide.with(mContext).load("http://image.tmdb.org/t/p/w185"+movieList.get(position).getPosterPath()).into(holder.thumbnail);
 

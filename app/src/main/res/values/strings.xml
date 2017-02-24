@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Popular Movies</string>
     <string name="action_settings">Most Popular</string>
+    <string name="action_settings_fav">Favourites</string>
     <string name="action_setting">Top Rated</string>
     <string name="action_add_favourite">Add to Favourites</string>
     <string name="action_play_next">Next Movie</string>

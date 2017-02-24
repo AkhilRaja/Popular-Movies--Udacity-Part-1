@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class MovieDBHelper extends SQLiteOpenHelper{
 
     private static final String Database_Name = "Movie.db";
-    private static final int Database_Version = 6;
+    private static final int Database_Version = 8;
 
 
 
@@ -23,14 +23,14 @@ public class MovieDBHelper extends SQLiteOpenHelper{
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 
         sqLiteDatabase.execSQL(MovieContract.Movie.DATABASE_CREATE);
-        sqLiteDatabase.execSQL(MovieContract.Video.DATABASE_CREATE);
+        sqLiteDatabase.execSQL(MovieContract.Favourite.DATABASE_CREATE);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MovieContract.Movie.TABLE_NAME);
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MovieContract.Video.TABLE_NAME);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MovieContract.Favourite.TABLE_NAME);
 
         onCreate(sqLiteDatabase);
     }

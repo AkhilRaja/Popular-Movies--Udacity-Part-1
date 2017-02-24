@@ -10,4 +10,9 @@
         android:title="@string/action_setting"
         android:orderInCategory="100"
         app:showAsAction="always" />
+    <item android:id="@+id/favorite"
+        android:title="@string/action_settings_fav"
+        android:icon="@android:drawable/btn_star"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
 </menu>

@@ -1,6 +1,7 @@
 package com.rebolt.ark.popularmoviesone;
 
 import android.content.ContentProvider;
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.ContentObserver;
@@ -32,7 +33,7 @@ public class MovieContentProvider extends ContentProvider
 
         uriMatcher.addURI(CONTENT_AUTHORITY, PATH_MOVIE, 1);
         uriMatcher.addURI(CONTENT_AUTHORITY, PATH_MOVIE+"/#", 2);
-
+        uriMatcher.addURI(CONTENT_AUTHORITY, PATH_FAVOURITE,3);
     }
 
     @Override
@@ -48,6 +49,7 @@ public class MovieContentProvider extends ContentProvider
                         String selection,
                         String[] selectionArgs,
                         String sortOrder) {
+
 
 
         sqLiteDatabase = movieDBHelper.getReadableDatabase();
@@ -68,12 +70,15 @@ public class MovieContentProvider extends ContentProvider
                  * Then, append the value to the WHERE clause for the query
                  */
                 break;
-
+            case 3:
+                    mcursor = sqLiteDatabase.query(PATH_FAVOURITE,projection,selection,selectionArgs,null,null,sortOrder);
             default:
 
                 // If the URI is not recognized, you should do some error handling here.
         }
         // call the code to actually do the query
+       // mcursor.setNotificationUri(getContext().getContentResolver(),uri);
+       // getContext().getContentResolver().notifyChange(uri,null);
         return mcursor;
     }
 
@@ -88,14 +93,37 @@ public class MovieContentProvider extends ContentProvider
     public Uri insert(Uri uri, ContentValues contentValues) {
 
         sqLiteDatabase = movieDBHelper.getWritableDatabase();
-        try {
-            sqLiteDatabase.insertOrThrow(MovieContract.PATH_MOVIE, null, contentValues);
+        switch (uriMatcher.match(uri)) {
+
+
+            // If the incoming URI was for all of table3
+            case 3:
+                try {
+                    sqLiteDatabase.insertOrThrow(MovieContract.PATH_FAVOURITE, null, contentValues);
+                }
+                catch (SQLiteConstraintException sqlitexcept)
+                {
+                    Log.d("SQLITE : ",""+sqlitexcept);
+                }
+
+                break;
+
+            default:
+                try {
+                    sqLiteDatabase.insertOrThrow(MovieContract.PATH_MOVIE, null, contentValues);
+                }
+                catch (SQLiteConstraintException sqlitexcept)
+                {
+                    Log.d("SQLITE : ",""+sqlitexcept);
+                }
+                break;
         }
-        catch (SQLiteConstraintException sqlitexcept)
-        {
-            Log.d("SQLITE : ",""+sqlitexcept);
-        }
-        return null;
+
+
+
+       // getContext().getContentResolver().notifyChange(uri,null);
+
+        return uri;
     }
 
     @Override

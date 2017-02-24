@@ -23,22 +23,12 @@ public class Movie implements Parcelable{
     private String overview;
     @SerializedName("release_date")
     private String releaseDate;
-    @SerializedName("genre_ids")
-    private List<Integer> genreIds = new ArrayList<Integer>();
     @SerializedName("id")
     private Integer id;
-    @SerializedName("original_title")
-    private String originalTitle;
-    @SerializedName("original_language")
-    private String originalLanguage;
     @SerializedName("title")
     private String title;
     @SerializedName("backdrop_path")
     private String backdropPath;
-    @SerializedName("popularity")
-    private Double popularity;
-    @SerializedName("vote_count")
-    private Integer voteCount;
     @SerializedName("video")
     private Boolean video;
     @SerializedName("vote_average")
@@ -68,16 +58,9 @@ public class Movie implements Parcelable{
         this.adult = (source.readInt() == 0) ? false : true;
         this.overview = source.readString();
         this.releaseDate = source.readString();
-        this.genreIds = new ArrayList<Integer>();
-        source.readList(genreIds,null);
         this.id = source.readInt();
-        this.originalTitle = source.readString();
-        this.originalLanguage = source.readString();
         this.title = source.readString();
         this.backdropPath = source.readString();
-        this.popularity = source.readDouble();
-        this.voteCount = source.readInt();
-        this.video = (source.readInt() == 0) ? false : true;
         this.voteAverage = source.readDouble();
     }
 
@@ -122,14 +105,6 @@ public class Movie implements Parcelable{
         this.releaseDate = releaseDate;
     }
 
-    public List<Integer> getGenreIds() {
-        return genreIds;
-    }
-
-    public void setGenreIds(List<Integer> genreIds) {
-        this.genreIds = genreIds;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -138,21 +113,7 @@ public class Movie implements Parcelable{
         this.id = id;
     }
 
-    public String getOriginalTitle() {
-        return originalTitle;
-    }
 
-    public void setOriginalTitle(String originalTitle) {
-        this.originalTitle = originalTitle;
-    }
-
-    public String getOriginalLanguage() {
-        return originalLanguage;
-    }
-
-    public void setOriginalLanguage(String originalLanguage) {
-        this.originalLanguage = originalLanguage;
-    }
 
     public String getTitle() {
         return title;
@@ -168,30 +129,6 @@ public class Movie implements Parcelable{
 
     public void setBackdropPath(String backdropPath) {
         this.backdropPath = backdropPath;
-    }
-
-    public Double getPopularity() {
-        return popularity;
-    }
-
-    public void setPopularity(Double popularity) {
-        this.popularity = popularity;
-    }
-
-    public Integer getVoteCount() {
-        return voteCount;
-    }
-
-    public void setVoteCount(Integer voteCount) {
-        this.voteCount = voteCount;
-    }
-
-    public Boolean getVideo() {
-        return video;
-    }
-
-    public void setVideo(Boolean video) {
-        this.video = video;
     }
 
     public Double getVoteAverage() {
@@ -213,15 +150,9 @@ public class Movie implements Parcelable{
         dest.writeInt(adult ? 1 : 0);
         dest.writeString(overview);
         dest.writeString(releaseDate);
-        dest.writeList(genreIds);
         dest.writeInt(id);
-        dest.writeString(originalTitle);
-        dest.writeString(originalLanguage);
         dest.writeString(title);
         dest.writeString(backdropPath);
-        dest.writeDouble(popularity);
-        dest.writeInt(voteCount);
-        dest.writeInt(video ? 1 : 0);
         dest.writeDouble(voteAverage);
     }
 

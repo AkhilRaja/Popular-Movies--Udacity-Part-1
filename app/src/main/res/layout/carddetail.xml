@@ -23,7 +23,6 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
                 android:scaleType="fitXY" />
-
             <TextView
                 android:id="@+id/title"
                 android:layout_width="match_parent"
@@ -44,6 +43,16 @@
                 android:paddingLeft="@dimen/album_title_padding"
                 android:paddingRight="@dimen/album_title_padding"
                 android:textSize="12dp" />
+            <ImageButton
+                android:id="@+id/favorite_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/btn_star"
+                android:layout_below="@+id/thumbnail"
+                android:layout_alignEnd="@+id/title"
+                android:background="#00ffffff" />
+
+
 
         </RelativeLayout>
 

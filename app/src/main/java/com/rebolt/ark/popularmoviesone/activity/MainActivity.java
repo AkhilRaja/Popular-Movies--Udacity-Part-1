@@ -33,6 +33,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.facebook.stetho.Stetho;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.rebolt.ark.popularmoviesone.MovieContract;
@@ -60,12 +61,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private RecyclerView recyclerView;
     private MovieAdapter adapter;
     private List<Movie> movieList;
+    List<Movie> movieList2 = new ArrayList<>();
     /**
      * ATTENTION: Add the API Key here at the bottom.
      */
     private static final String TAG = MainActivity.class.getSimpleName();
     private final static String API_KEY = "bb7151040747a331befa1dec25400c7b";
-    private final static int Loader_id = 9726;
 
     ApiInterface apiService =
             ApiClient.getClient().create(ApiInterface.class);
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Stetho.initializeWithDefaults(this);
         setContentView(R.layout.activity_main);
 
 
@@ -83,6 +85,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         recyclerView.setLayoutManager(mLayoutManager);
+        adapter = new MovieAdapter(getApplicationContext(), movieList2);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+
 
         Cursor checkEmpty = getContentResolver().query(MovieContract.Movie.CONTENT_URI,null,null,null,null);
 
@@ -157,7 +163,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         }
         else{
-            getLoaderManager().initLoader(Loader_id, null,this);
+            getLoaderManager().initLoader(12, null,this);
         }
         recyclerView.addOnItemTouchListener(
                 new RecyclerViewTouch(getApplicationContext(), new RecyclerViewTouch.OnItemClickListener() {
@@ -166,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         // TODO Handle item click
 
                         Intent intent = new Intent(getApplicationContext(), Detail.class);
-                        intent.putExtra("name_of_extra", movieList.get(position));
+                        intent.putExtra("name_of_extra", movieList2.get(position));
                         startActivity(intent);
                     }
                 })
@@ -190,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
     private void Load_manager_data()
     {
-        getLoaderManager().initLoader(Loader_id,null,this);
+        getLoaderManager().initLoader(12,null,this);
     }
     ////This animation toolbar
     private void initCollapsingToolbar() {
@@ -243,15 +249,32 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            getLoaderManager().initLoader(1,null,this);
+            getLoaderManager().initLoader(21,null,this);
+            TextView smalltxt = (TextView) findViewById(R.id.movie_desc_small);
+            TextView bigtxt = (TextView) findViewById(R.id.movie_desc_big);
+            smalltxt.setText("Popular Movies");
+            bigtxt.setText("Poplar Movies of all time");
+
             return true;
         }
         if (id == R.id.action_setting) {
-            getLoaderManager().initLoader(2,null,this);
+            getLoaderManager().initLoader(12,null,this);
+            TextView smalltxt = (TextView) findViewById(R.id.movie_desc_small);
+            TextView bigtxt = (TextView) findViewById(R.id.movie_desc_big);
+            smalltxt.setText(R.string.Movie_small_desc_top);
+            bigtxt.setText(R.string.Movie_big_desc_top);
+
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        if (id == R.id.favorite) {
+            getLoaderManager().initLoader(1000, null, this);
+            TextView smalltxt = (TextView) findViewById(R.id.movie_desc_small);
+            TextView bigtxt = (TextView) findViewById(R.id.movie_desc_big);
+            smalltxt.setText("Favourites");
+            bigtxt.setText("Your Favourite Movies ");
+        }
+            return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -280,35 +303,46 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     //String data = cursor.getString(cursor.getColumnIndex("_id"));
                     //Log.d(TAG,data);
         */
-        Uri uri = MovieContract.Movie.CONTENT_URI.buildUpon().appendPath("i").build();
-        CursorLoader cursorLoader = new CursorLoader(getApplicationContext());
+        Uri uri = MovieContract.Movie.CONTENT_URI.buildUpon().appendPath(""+i).build();
+        CursorLoader cursorLoader; //= new CursorLoader(getApplicationContext());
         String [] args1 = {"1"};
         String [] args2 = {"2"};
+        Log.d(TAG," "+i);
 
-        if(i == 1)
+        if (i == 1000)
+        {
+            Log.d("This"," FUCK YOU");
+            cursorLoader = new CursorLoader(getApplicationContext(),MovieContract.Favourite.CONTENT_URI,null,null,null,null);
+            Log.d("This"," FUCK YOU");
+            return cursorLoader;
+        }
+        else if(i == 12)
         {
             cursorLoader = new CursorLoader(getApplicationContext(),uri,null,MovieContract.Movie.COLUMN_TYPE + "=? ",args1,null);
+            return cursorLoader;
         }
 
-        else if (i == 2)
+        else if (i == 21)
         {
             cursorLoader = new CursorLoader(getApplicationContext(),uri,null,MovieContract.Movie.COLUMN_TYPE + "=? ",args2,null);
+            //cursorLoader = new CursorLoader(getApplicationContext(),uri,null,null,null,null);
+            return cursorLoader;
         }
-        else if(i == Loader_id)
-        {
-            cursorLoader = new CursorLoader(getApplicationContext(),uri,null,null,null,null);
+
+        else{
+            return new CursorLoader(getApplicationContext(),MovieContract.Favourite.CONTENT_URI,null,null,null,null);
         }
-        return cursorLoader;
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
-        List<Movie> movieList2 = new ArrayList<>();
+        movieList2.clear();
 
         Log.d(TAG + "Cursor : ",""+cursor.getCount());
 
-        if (cursor.moveToFirst()&& cursor.getCount()>0){
+        if (cursor.getCount()>0)
+            if(cursor.moveToFirst()){
             do{
                 // String data = cursor.getString(cursor.getColumnIndex(MovieContract.Movie.COLUMN_TITLE));
                 // Log.d(TAG,data);
@@ -325,11 +359,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         }
         Log.d(TAG,"MovieList Size  = "+movieList2.size());
-        adapter = new MovieAdapter(getApplicationContext(), movieList2);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-
-
+        adapter.notifyDataSetChanged();
     }
 
     @Override
