@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      * ATTENTION: Add the API Key here at the bottom.
      */
     private static final String TAG = MainActivity.class.getSimpleName();
-    private final static String API_KEY = "bb7151040747a331befa1dec25400c7b";
+    private final static String API_KEY = "Insert your API Key Here";
 
     ApiInterface apiService =
             ApiClient.getClient().create(ApiInterface.class);
@@ -311,9 +311,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         if (i == 1000)
         {
-            Log.d("This"," FUCK YOU");
             cursorLoader = new CursorLoader(getApplicationContext(),MovieContract.Favourite.CONTENT_URI,null,null,null,null);
-            Log.d("This"," FUCK YOU");
             return cursorLoader;
         }
         else if(i == 12)
