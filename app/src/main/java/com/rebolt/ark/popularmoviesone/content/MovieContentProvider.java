@@ -1,20 +1,14 @@
-package com.rebolt.ark.popularmoviesone;
+package com.rebolt.ark.popularmoviesone.content;
 
 import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.UriMatcher;
-import android.database.ContentObserver;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.text.TextUtils;
 import android.util.Log;
-
-import static com.rebolt.ark.popularmoviesone.MovieContract.*;
 
 /**
  * Created by AkhilRaja on 15/12/16.
@@ -31,9 +25,9 @@ public class MovieContentProvider extends ContentProvider
 
     static {
 
-        uriMatcher.addURI(CONTENT_AUTHORITY, PATH_MOVIE, 1);
-        uriMatcher.addURI(CONTENT_AUTHORITY, PATH_MOVIE+"/#", 2);
-        uriMatcher.addURI(CONTENT_AUTHORITY, PATH_FAVOURITE,3);
+        uriMatcher.addURI(MovieContract.CONTENT_AUTHORITY, MovieContract.PATH_MOVIE, 1);
+        uriMatcher.addURI(MovieContract.CONTENT_AUTHORITY, MovieContract.PATH_MOVIE+"/#", 2);
+        uriMatcher.addURI(MovieContract.CONTENT_AUTHORITY, MovieContract.PATH_FAVOURITE,3);
     }
 
     @Override
@@ -58,12 +52,12 @@ public class MovieContentProvider extends ContentProvider
 
             // If the incoming URI was for all of table3
             case 1:
-                    mcursor = sqLiteDatabase.rawQuery("select * from " + PATH_MOVIE,null);
+                    mcursor = sqLiteDatabase.rawQuery("select * from " + MovieContract.PATH_MOVIE,null);
                     break;
             // If the incoming URI was for a single row
             case 2:
                    // selectionArgs[0] = uri.getLastPathSegment();
-                    mcursor = sqLiteDatabase.query(PATH_MOVIE,projection,selection,selectionArgs,null,null,sortOrder);
+                    mcursor = sqLiteDatabase.query(MovieContract.PATH_MOVIE,projection,selection,selectionArgs,null,null,sortOrder);
                 /*
                  * Because this URI was for a single row, the _ID value part is
                  * present. Get the last path segment from the URI; this is the _ID value.
@@ -71,7 +65,7 @@ public class MovieContentProvider extends ContentProvider
                  */
                 break;
             case 3:
-                    mcursor = sqLiteDatabase.query(PATH_FAVOURITE,projection,selection,selectionArgs,null,null,sortOrder);
+                    mcursor = sqLiteDatabase.query(MovieContract.PATH_FAVOURITE,projection,selection,selectionArgs,null,null,sortOrder);
             default:
 
                 // If the URI is not recognized, you should do some error handling here.

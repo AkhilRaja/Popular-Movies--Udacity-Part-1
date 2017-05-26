@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
         <provider
             android:authorities="com.rebolt.ark.popularmoviesone"
-            android:name=".MovieContentProvider"
+            android:name=".content.MovieContentProvider"
             android:exported="true"
             >
         </provider>

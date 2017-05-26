@@ -1,4 +1,4 @@
-package com.rebolt.ark.popularmoviesone;
+package com.rebolt.ark.popularmoviesone.content;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

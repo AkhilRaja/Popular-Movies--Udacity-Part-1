@@ -1,4 +1,4 @@
-package com.rebolt.ark.popularmoviesone;
+package com.rebolt.ark.popularmoviesone.content;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;

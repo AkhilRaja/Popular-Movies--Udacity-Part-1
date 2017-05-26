@@ -1,18 +1,11 @@
 package com.rebolt.ark.popularmoviesone.activity;
 
 import android.app.LoaderManager;
-import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -24,7 +17,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,9 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.facebook.stetho.Stetho;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.rebolt.ark.popularmoviesone.MovieContract;
+import com.rebolt.ark.popularmoviesone.content.MovieContract;
 import com.rebolt.ark.popularmoviesone.model.Movie;
 import com.rebolt.ark.popularmoviesone.adapter.MovieAdapter;
 import com.rebolt.ark.popularmoviesone.R;
@@ -44,17 +34,12 @@ import com.rebolt.ark.popularmoviesone.rest.ApiClient;
 import com.rebolt.ark.popularmoviesone.rest.ApiInterface;
 import com.rebolt.ark.popularmoviesone.model.MoviesResponse;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.support.v7.recyclerview.R.attr.layoutManager;
-import static com.rebolt.ark.popularmoviesone.MovieContract.BASE_CONTENT_URI;
-import static com.rebolt.ark.popularmoviesone.MovieContract.PATH_MOVIE;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 

@@ -2,13 +2,9 @@ package com.rebolt.ark.popularmoviesone.adapter;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.nfc.Tag;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
@@ -17,14 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.rebolt.ark.popularmoviesone.MovieContract;
+import com.rebolt.ark.popularmoviesone.content.MovieContract;
 import com.rebolt.ark.popularmoviesone.R;
 import com.rebolt.ark.popularmoviesone.activity.MainActivity;
 import com.rebolt.ark.popularmoviesone.model.Movie;
 
 import java.util.List;
-
-import static java.security.AccessController.getContext;
 
 /**
  * Created by pakhi on 16-08-2016.
