@@ -51,7 +51,7 @@ public class Detail extends AppCompatActivity {
 
         assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
-
+        ab.setDisplayShowTitleEnabled(false);
         Intent i = getIntent();
         Bundle b = getIntent().getExtras();
         assert b != null;

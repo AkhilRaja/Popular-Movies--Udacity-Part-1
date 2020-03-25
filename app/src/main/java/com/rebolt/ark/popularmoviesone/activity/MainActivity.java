@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Stetho.initializeWithDefaults(this);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         if (API_KEY.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please obtain your API KEY first from themoviedb.org", Toast.LENGTH_LONG).show();
@@ -146,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         }
         else{
-            getLoaderManager().initLoader(12, null,this);
+            Load_manager_data();
         }
         recyclerView.addOnItemTouchListener(
                 new RecyclerViewTouch(getApplicationContext(), new RecyclerViewTouch.OnItemClickListener() {
@@ -158,14 +160,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     }
                 })
         );
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
 
 
     }
     private void Load_manager_data()
     {
         getLoaderManager().initLoader(12,null,this);
+        if(getSupportActionBar()!=null)
+            getSupportActionBar().setTitle("Top Rated");
     }
 
 
@@ -192,15 +195,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_mostPopular) {
             getLoaderManager().initLoader(21,null,this);
+            getSupportActionBar().setTitle("Most Popular");
             return true;
         }
         if (id == R.id.action_topRated) {
             getLoaderManager().initLoader(12,null,this);
+            getSupportActionBar().setTitle("Top Rated");
             return true;
         }
 
         if (id == R.id.action_favourite) {
             getLoaderManager().initLoader(1000, null, this);
+            getSupportActionBar().setTitle("Favourites");
             return true;
         }
             return super.onOptionsItemSelected(item);
