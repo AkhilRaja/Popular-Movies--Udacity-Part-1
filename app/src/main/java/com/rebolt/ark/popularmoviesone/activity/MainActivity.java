@@ -13,20 +13,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
 import com.facebook.stetho.Stetho;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.rebolt.ark.popularmoviesone.content.MovieContract;
 import com.rebolt.ark.popularmoviesone.model.Movie;
 import com.rebolt.ark.popularmoviesone.adapter.MovieAdapter;
@@ -168,18 +161,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        initCollapsingToolbar();
-//
-//        try {
-//            Glide.with(this).load(R.drawable.cover).into((ImageView) findViewById(R.id.backdrop));
-//            TextView smalltxt = findViewById(R.id.movie_desc_small);
-//            TextView bigtxt = findViewById(R.id.movie_desc_big);
-//            smalltxt.setText(R.string.Movie_small_desc_top);
-//            bigtxt.setText(R.string.Movie_big_desc_top);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
     }
     private void Load_manager_data()
@@ -187,34 +168,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         getLoaderManager().initLoader(12,null,this);
     }
 
-    ////This animation toolbar
-//    private void initCollapsingToolbar() {
-//        final CollapsingToolbarLayout collapsingToolbar =
-//                findViewById(R.id.collapsing_toolbar);
-//        collapsingToolbar.setTitle(" ");
-//        AppBarLayout appBarLayout = findViewById(R.id.appbar);
-//        appBarLayout.setExpanded(true);
-//
-//        // hiding & showing the title when toolbar expanded & collapsed
-//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//            boolean isShow = false;
-//            int scrollRange = -1;
-//
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                if (scrollRange == -1) {
-//                    scrollRange = appBarLayout.getTotalScrollRange();
-//                }
-//                if (scrollRange + verticalOffset == 0) {
-//                    collapsingToolbar.setTitle(getString(R.string.app_name));
-//                    isShow = true;
-//                } else if (isShow) {
-//                    collapsingToolbar.setTitle(" ");
-//                    isShow = false;
-//                }
-//            }
-//        });
-//    }
 
 
     @Override
@@ -279,19 +232,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-        /*                   // Log.d(TAG, "Number of movies received: Hello : "+ movieList);
-                    String [] args = {"372058"};
-                    Uri uri = MovieContract.Movie.CONTENT_URI.buildUpon().appendPath("372058").build();
-
-                    //This calls all of the Movies
-                    //Cursor cursor = getContentResolver().query(MovieContract.Movie.CONTENT_URI,null, MovieContract.Movie.COLUMN_ID + " = ? ",args,null);
-
-                    //This would call only the required movie
-                    Cursor cursor = getContentResolver().query(uri,null, MovieContract.Movie.COLUMN_ID + " = ? ",args,null);
-
-                    //String data = cursor.getString(cursor.getColumnIndex("_id"));
-                    //Log.d(TAG,data);
-        */
         Uri uri = MovieContract.Movie.CONTENT_URI.buildUpon().appendPath(""+i).build();
         CursorLoader cursorLoader; //= new CursorLoader(getApplicationContext());
         String [] args1 = {"1"};
@@ -312,7 +252,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         else if (i == 21)
         {
             cursorLoader = new CursorLoader(getApplicationContext(),uri,null,MovieContract.Movie.COLUMN_TYPE + "=? ",args2,null);
-            //cursorLoader = new CursorLoader(getApplicationContext(),uri,null,null,null,null);
             return cursorLoader;
         }
 
@@ -331,8 +270,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (cursor.getCount()>0)
             if(cursor.moveToFirst()){
             do{
-                // String data = cursor.getString(cursor.getColumnIndex(MovieContract.Movie.COLUMN_TITLE));
-                // Log.d(TAG,data);
                 // do what ever you want here
                 movieList2.add(new Movie(
                         cursor.getString(cursor.getColumnIndex("poster_path")),

@@ -2,17 +2,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="info.androidhive.cardview.MainActivity" >
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
-    <item android:id="@+id/action_setting"
-        android:title="@string/action_setting"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
-    <item android:id="@+id/favorite"
-        android:title="@string/action_settings_fav"
+    <item
+        android:id="@+id/favorite"
         android:icon="@android:drawable/btn_star"
-        android:orderInCategory="100"
-        app:showAsAction="always" />
+        android:orderInCategory="102"
+        android:title="@string/action_settings_fav" />
+    <item
+        android:id="@+id/action_setting"
+        android:orderInCategory="102"
+        android:title="@string/action_setting" />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="102"
+        android:title="@string/action_settings" />
 </menu>
