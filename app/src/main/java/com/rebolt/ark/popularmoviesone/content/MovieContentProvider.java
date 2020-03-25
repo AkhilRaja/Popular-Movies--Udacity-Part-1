@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import javax.annotation.Nullable;
 
 /**
@@ -40,7 +42,7 @@ public class MovieContentProvider extends ContentProvider
 
     @Nullable
     @Override
-    public Cursor query(Uri uri, String[] projection,
+    public Cursor query(@NonNull Uri uri, String[] projection,
                         String selection,
                         String[] selectionArgs,
                         String sortOrder) {
@@ -79,55 +81,41 @@ public class MovieContentProvider extends ContentProvider
 
     @Nullable
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         return null;
     }
 
     @Nullable
     @Override
-    public Uri insert(Uri uri, ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
 
         sqLiteDatabase = movieDBHelper.getWritableDatabase();
-        switch (uriMatcher.match(uri)) {
-
-
-            // If the incoming URI was for all of table3
-            case 3:
-                try {
-                    sqLiteDatabase.insertOrThrow(MovieContract.PATH_FAVOURITE, null, contentValues);
-                }
-                catch (SQLiteConstraintException sqlitexcept)
-                {
-                    Log.d("SQLITE : ",""+sqlitexcept);
-                }
-
-                break;
-
-            default:
-                try {
-                    sqLiteDatabase.insertOrThrow(MovieContract.PATH_MOVIE, null, contentValues);
-                }
-                catch (SQLiteConstraintException sqlitexcept)
-                {
-                    Log.d("SQLITE : ",""+sqlitexcept);
-                }
-                break;
+        // If the incoming URI was for all of table3
+        if (uriMatcher.match(uri) == 3) {
+            try {
+                sqLiteDatabase.insertOrThrow(MovieContract.PATH_FAVOURITE, null, contentValues);
+            } catch (SQLiteConstraintException sqlitexcept) {
+                Log.d("SQLITE : ", "" + sqlitexcept);
+            }
+        } else {
+            try {
+                sqLiteDatabase.insertOrThrow(MovieContract.PATH_MOVIE, null, contentValues);
+            } catch (SQLiteConstraintException sqlitexcept) {
+                Log.d("SQLITE : ", "" + sqlitexcept);
+            }
         }
 
-
-
        // getContext().getContentResolver().notifyChange(uri,null);
-
         return uri;
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings) {
+    public int delete(@NonNull Uri uri, String s, String[] strings) {
         return 0;
     }
 
     @Override
-    public int update(Uri uri, ContentValues contentValues, String s, String[] strings) {
+    public int update(@NonNull Uri uri, ContentValues contentValues, String s, String[] strings) {
         return 0;
     }
 }

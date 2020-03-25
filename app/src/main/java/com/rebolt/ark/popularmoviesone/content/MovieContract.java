@@ -14,12 +14,12 @@ import android.provider.BaseColumns;
 
 public class MovieContract {
 
-    public static final String CONTENT_AUTHORITY = "com.rebolt.ark.popularmoviesone";
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    static final String CONTENT_AUTHORITY = "com.rebolt.ark.popularmoviesone";
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
 
-    public static final String PATH_MOVIE = "movie";
-    public static final String PATH_FAVOURITE = "favourite";
+    static final String PATH_MOVIE = "movie";
+    static final String PATH_FAVOURITE = "favourite";
 
 
     public static final class Movie {
@@ -29,7 +29,7 @@ public class MovieContract {
 
 
 
-        public static final String TABLE_NAME = "movie";
+        static final String TABLE_NAME = "movie";
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_VOTE = "vote_count";
@@ -40,7 +40,7 @@ public class MovieContract {
         public static final String COLUMN_TYPE = "type";
 
 
-        public static final String DATABASE_CREATE = "create table "
+        static final String DATABASE_CREATE = "create table "
                 + TABLE_NAME
                 + "("
                 + COLUMN_ID + " integer primary key, "
@@ -60,7 +60,7 @@ public class MovieContract {
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_FAVOURITE).build();
 
-        public static final String TABLE_NAME = "favourite";
+        static final String TABLE_NAME = "favourite";
         public static final String COLUMN_ID = "_id";
         public static final String COLUMN_TITLE = "title";
         public static final String COLUMN_VOTE = "vote_count";
@@ -69,7 +69,7 @@ public class MovieContract {
         public static final String COLUMN_OVERVIEW = "overview";
 
 
-        public static final String DATABASE_CREATE = "create table "
+        static final String DATABASE_CREATE = "create table "
                 + TABLE_NAME
                 + "("
                 + COLUMN_ID + " integer primary key, "

@@ -22,7 +22,7 @@ import com.rebolt.ark.popularmoviesone.model.Movie;
 import java.util.List;
 
 /**
- * Created by pakhi on 16-08-2016.
+ * Created by Akhil on 16-08-2016.
  */
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder> {
 
