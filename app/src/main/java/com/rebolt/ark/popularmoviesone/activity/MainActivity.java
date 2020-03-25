@@ -190,31 +190,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_mostPopular) {
             getLoaderManager().initLoader(21,null,this);
-//            TextView smalltxt = findViewById(R.id.movie_desc_small);
-//            TextView bigtxt = findViewById(R.id.movie_desc_big);
-//            smalltxt.setText("Popular Movies");
-//            bigtxt.setText("Poplar Movies of all time");
-
             return true;
         }
-        if (id == R.id.action_setting) {
+        if (id == R.id.action_topRated) {
             getLoaderManager().initLoader(12,null,this);
-//            TextView smalltxt = findViewById(R.id.movie_desc_small);
-//            TextView bigtxt = findViewById(R.id.movie_desc_big);
-//            smalltxt.setText(R.string.Movie_small_desc_top);
-//            bigtxt.setText(R.string.Movie_big_desc_top);
-
             return true;
         }
 
-        if (id == R.id.favorite) {
+        if (id == R.id.action_favourite) {
             getLoaderManager().initLoader(1000, null, this);
-//            TextView smalltxt = findViewById(R.id.movie_desc_small);
-//            TextView bigtxt = findViewById(R.id.movie_desc_big);
-//            smalltxt.setText("Favourites");
-//            bigtxt.setText("Your Favourite Movies ");
+            return true;
         }
             return super.onOptionsItemSelected(item);
     }

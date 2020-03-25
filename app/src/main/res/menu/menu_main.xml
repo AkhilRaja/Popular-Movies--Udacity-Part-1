@@ -3,16 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="info.androidhive.cardview.MainActivity" >
     <item
-        android:id="@+id/favorite"
-        android:icon="@android:drawable/btn_star"
+        android:id="@+id/action_favourite"
         android:orderInCategory="102"
         android:title="@string/action_settings_fav" />
     <item
-        android:id="@+id/action_setting"
+        android:id="@+id/action_topRated"
         android:orderInCategory="102"
         android:title="@string/action_setting" />
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_mostPopular"
         android:orderInCategory="102"
         android:title="@string/action_settings" />
 </menu>
