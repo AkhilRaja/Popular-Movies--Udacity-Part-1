@@ -159,7 +159,7 @@ public class Detail extends AppCompatActivity {
 
                             Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + videoModels.get(finalK).getKey()));
                             Intent webIntent = new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse("http://www.youtube.com/watch?v=" + videoModels.get(finalK).getKey()));
+                                    Uri.parse("https://www.youtube.com/watch?v=" + videoModels.get(finalK).getKey()));
                             try {
                                 startActivity(appIntent);
                             } catch (ActivityNotFoundException ex) {
@@ -198,8 +198,8 @@ public class Detail extends AppCompatActivity {
 
 
         Log.d("THis",obj.getBackdropPath());
-        Glide.with(getApplicationContext()).load("http://image.tmdb.org/t/p/w780"+obj.getBackdropPath()).into(backdrop);
-        Glide.with(getApplicationContext()).load("http://image.tmdb.org/t/p/w185"+obj.getPosterPath()).into(poster);
+        Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w780"+obj.getBackdropPath()).into(backdrop);
+        Glide.with(getApplicationContext()).load("https://image.tmdb.org/t/p/w185"+obj.getPosterPath()).into(poster);
         title.setText(obj.getTitle());
         date.setText(obj.getReleaseDate());
         overview.setText(obj.getOverview());
