@@ -1,11 +1,13 @@
 package com.rebolt.ark.popularmoviesone.activity;
 
+
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by pakhi on 20-08-2016.

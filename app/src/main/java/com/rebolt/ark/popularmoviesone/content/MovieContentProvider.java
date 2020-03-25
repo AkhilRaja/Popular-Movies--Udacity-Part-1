@@ -7,8 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.util.Log;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by AkhilRaja on 15/12/16.

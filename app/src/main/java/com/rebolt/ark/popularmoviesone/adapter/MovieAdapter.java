@@ -2,7 +2,6 @@ package com.rebolt.ark.popularmoviesone.adapter;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.rebolt.ark.popularmoviesone.content.MovieContract;
@@ -87,7 +88,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MyViewHolder
             }
         });
         // loading album cover using Glide library
-        Glide.with(mContext).load("http://image.tmdb.org/t/p/w185"+movieList.get(position).getPosterPath()).into(holder.thumbnail);
+        Glide.with(mContext).load("https://image.tmdb.org/t/p/w185"+movieList.get(position).getPosterPath()).into(holder.thumbnail);
 
     }
 

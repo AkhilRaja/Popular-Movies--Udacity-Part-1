@@ -9,13 +9,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PersistableBundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.Menu;
@@ -24,8 +17,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
 import com.facebook.stetho.Stetho;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.rebolt.ark.popularmoviesone.content.MovieContract;
 import com.rebolt.ark.popularmoviesone.model.Movie;
 import com.rebolt.ark.popularmoviesone.adapter.MovieAdapter;
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
      * ATTENTION: Add the API Key here at the bottom.
      */
     private static final String TAG = MainActivity.class.getSimpleName();
-    private final static String API_KEY = "Insert your API Key Here";
+    private final static String API_KEY = "bb7151040747a331befa1dec25400c7b";
 
     ApiInterface apiService =
             ApiClient.getClient().create(ApiInterface.class);
