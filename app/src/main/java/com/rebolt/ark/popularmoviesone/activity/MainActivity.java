@@ -138,7 +138,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     Log.d(TAG, "Successfully Written to the database !!");
 
                 }
-
                 @Override
                 public void onFailure(Call<MoviesResponse> call, Throwable t) {
                     // Log error here since request failed
@@ -160,9 +159,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     }
                 })
         );
-
-
-
     }
     private void Load_manager_data()
     {
@@ -170,8 +166,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if(getSupportActionBar()!=null)
             getSupportActionBar().setTitle("Top Rated");
     }
-
-
 
     @Override
     public void onStart() {

@@ -77,8 +77,6 @@ public class Detail extends AppCompatActivity {
         call.enqueue(new Callback<VideoResponse>() {
             @Override
             public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
-                int statuscode = response.code();
-
                 assert response.body() != null;
                 videoModels = response.body().getResults();
 
