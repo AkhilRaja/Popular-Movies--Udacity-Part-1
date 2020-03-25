@@ -47,10 +47,13 @@ public class Detail extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ActionBar ab = getSupportActionBar();
+        assert ab != null;
         ab.setDisplayHomeAsUpEnabled(true);
 
         Intent i = getIntent();
         Bundle b = getIntent().getExtras();
+        assert b != null;
+
         final Movie obj =
                 b.getParcelable("name_of_extra");
 
@@ -73,6 +76,8 @@ public class Detail extends AppCompatActivity {
             @Override
             public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
                 int statuscode = response.code();
+
+                assert response.body() != null;
                 videoModels = response.body().getResults();
 
                 LinearLayout layout = findViewById(R.id.linear_trailers);
@@ -83,7 +88,7 @@ public class Detail extends AppCompatActivity {
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 LinearLayout row2 = new LinearLayout(getApplicationContext());
                 LinearLayout.LayoutParams params3= new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.FILL_PARENT, 3);
+                        LinearLayout.LayoutParams.MATCH_PARENT, 3);
 
 
                 for(int j=1;j<=videoModels.size();j++)

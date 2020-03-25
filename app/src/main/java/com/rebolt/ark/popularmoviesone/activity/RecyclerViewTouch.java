@@ -1,12 +1,9 @@
 package com.rebolt.ark.popularmoviesone.activity;
 
-
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AdapterView;
-
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
@@ -20,9 +17,9 @@ public class RecyclerViewTouch implements RecyclerView.OnItemTouchListener{
         void onItemClick(View view, int position);
     }
 
-    GestureDetector mgestureDetector;
+    private GestureDetector mgestureDetector;
 
-    public RecyclerViewTouch(Context context, OnItemClickListener listener) {
+    RecyclerViewTouch(Context context, OnItemClickListener listener) {
         mlistner = listener;
         mgestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override

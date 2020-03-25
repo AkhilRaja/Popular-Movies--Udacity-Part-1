@@ -78,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         Cursor checkEmpty = getContentResolver().query(MovieContract.Movie.CONTENT_URI,null,null,null,null);
 
+        assert checkEmpty != null;
         if(checkEmpty.getCount() == 0) {
             Call<MoviesResponse> call = apiService.getTopRatedMovies(API_KEY);
             call.enqueue(new Callback<MoviesResponse>() {
@@ -85,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                     int i = 0;
                     int statuscode = response.code();
+
+                    assert response.body() != null;
                     movieList = response.body().getResults();
                     // Log.d(TAG,""+movieList.size());
                     ContentValues contentValues = new ContentValues();
@@ -119,6 +122,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 public void onResponse(Call<MoviesResponse> call, Response<MoviesResponse> response) {
                     int i = 0;
                     int statuscode = response.code();
+
+                    assert response.body() != null;
                     movieList = response.body().getResults();
                     // Log.d(TAG,""+movieList.size());
                     ContentValues contentValues = new ContentValues();
