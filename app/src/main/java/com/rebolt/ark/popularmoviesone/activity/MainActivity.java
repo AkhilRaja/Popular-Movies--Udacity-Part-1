@@ -168,52 +168,53 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        initCollapsingToolbar();
-
-        try {
-            Glide.with(this).load(R.drawable.cover).into((ImageView) findViewById(R.id.backdrop));
-            TextView smalltxt = findViewById(R.id.movie_desc_small);
-            TextView bigtxt = findViewById(R.id.movie_desc_big);
-            smalltxt.setText(R.string.Movie_small_desc_top);
-            bigtxt.setText(R.string.Movie_big_desc_top);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        initCollapsingToolbar();
+//
+//        try {
+//            Glide.with(this).load(R.drawable.cover).into((ImageView) findViewById(R.id.backdrop));
+//            TextView smalltxt = findViewById(R.id.movie_desc_small);
+//            TextView bigtxt = findViewById(R.id.movie_desc_big);
+//            smalltxt.setText(R.string.Movie_small_desc_top);
+//            bigtxt.setText(R.string.Movie_big_desc_top);
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }
     private void Load_manager_data()
     {
         getLoaderManager().initLoader(12,null,this);
     }
+
     ////This animation toolbar
-    private void initCollapsingToolbar() {
-        final CollapsingToolbarLayout collapsingToolbar =
-                findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle(" ");
-        AppBarLayout appBarLayout = findViewById(R.id.appbar);
-        appBarLayout.setExpanded(true);
-
-        // hiding & showing the title when toolbar expanded & collapsed
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle(getString(R.string.app_name));
-                    isShow = true;
-                } else if (isShow) {
-                    collapsingToolbar.setTitle(" ");
-                    isShow = false;
-                }
-            }
-        });
-    }
+//    private void initCollapsingToolbar() {
+//        final CollapsingToolbarLayout collapsingToolbar =
+//                findViewById(R.id.collapsing_toolbar);
+//        collapsingToolbar.setTitle(" ");
+//        AppBarLayout appBarLayout = findViewById(R.id.appbar);
+//        appBarLayout.setExpanded(true);
+//
+//        // hiding & showing the title when toolbar expanded & collapsed
+//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//            boolean isShow = false;
+//            int scrollRange = -1;
+//
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                if (scrollRange == -1) {
+//                    scrollRange = appBarLayout.getTotalScrollRange();
+//                }
+//                if (scrollRange + verticalOffset == 0) {
+//                    collapsingToolbar.setTitle(getString(R.string.app_name));
+//                    isShow = true;
+//                } else if (isShow) {
+//                    collapsingToolbar.setTitle(" ");
+//                    isShow = false;
+//                }
+//            }
+//        });
+//    }
 
 
     @Override
@@ -238,29 +239,29 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             getLoaderManager().initLoader(21,null,this);
-            TextView smalltxt = findViewById(R.id.movie_desc_small);
-            TextView bigtxt = findViewById(R.id.movie_desc_big);
-            smalltxt.setText("Popular Movies");
-            bigtxt.setText("Poplar Movies of all time");
+//            TextView smalltxt = findViewById(R.id.movie_desc_small);
+//            TextView bigtxt = findViewById(R.id.movie_desc_big);
+//            smalltxt.setText("Popular Movies");
+//            bigtxt.setText("Poplar Movies of all time");
 
             return true;
         }
         if (id == R.id.action_setting) {
             getLoaderManager().initLoader(12,null,this);
-            TextView smalltxt = findViewById(R.id.movie_desc_small);
-            TextView bigtxt = findViewById(R.id.movie_desc_big);
-            smalltxt.setText(R.string.Movie_small_desc_top);
-            bigtxt.setText(R.string.Movie_big_desc_top);
+//            TextView smalltxt = findViewById(R.id.movie_desc_small);
+//            TextView bigtxt = findViewById(R.id.movie_desc_big);
+//            smalltxt.setText(R.string.Movie_small_desc_top);
+//            bigtxt.setText(R.string.Movie_big_desc_top);
 
             return true;
         }
 
         if (id == R.id.favorite) {
             getLoaderManager().initLoader(1000, null, this);
-            TextView smalltxt = findViewById(R.id.movie_desc_small);
-            TextView bigtxt = findViewById(R.id.movie_desc_big);
-            smalltxt.setText("Favourites");
-            bigtxt.setText("Your Favourite Movies ");
+//            TextView smalltxt = findViewById(R.id.movie_desc_small);
+//            TextView bigtxt = findViewById(R.id.movie_desc_big);
+//            smalltxt.setText("Favourites");
+//            bigtxt.setText("Your Favourite Movies ");
         }
             return super.onOptionsItemSelected(item);
     }
