@@ -55,7 +55,7 @@ public class Movie implements Parcelable{
 */
     private Movie(Parcel source) {
         this.posterPath = source.readString();
-        this.adult = (source.readInt() == 0) ? false : true;
+        this.adult = source.readInt() != 0;
         this.overview = source.readString();
         this.releaseDate = source.readString();
         this.id = source.readInt();

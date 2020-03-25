@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Toast.makeText(getApplicationContext(), "Please obtain your API KEY first from themoviedb.org", Toast.LENGTH_LONG).show();
             return;
         }
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(),2);
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new MovieAdapter(getApplicationContext(), movieList2);
@@ -155,23 +155,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 new RecyclerViewTouch(getApplicationContext(), new RecyclerViewTouch.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        // TODO Handle item click
-
                         Intent intent = new Intent(getApplicationContext(), Detail.class);
                         intent.putExtra("name_of_extra", movieList2.get(position));
                         startActivity(intent);
                     }
                 })
         );
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         initCollapsingToolbar();
 
         try {
             Glide.with(this).load(R.drawable.cover).into((ImageView) findViewById(R.id.backdrop));
-            TextView smalltxt = (TextView) findViewById(R.id.movie_desc_small);
-            TextView bigtxt = (TextView) findViewById(R.id.movie_desc_big);
+            TextView smalltxt = findViewById(R.id.movie_desc_small);
+            TextView bigtxt = findViewById(R.id.movie_desc_big);
             smalltxt.setText(R.string.Movie_small_desc_top);
             bigtxt.setText(R.string.Movie_big_desc_top);
 
@@ -187,9 +185,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     ////This animation toolbar
     private void initCollapsingToolbar() {
         final CollapsingToolbarLayout collapsingToolbar =
-                (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+                findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(" ");
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        AppBarLayout appBarLayout = findViewById(R.id.appbar);
         appBarLayout.setExpanded(true);
 
         // hiding & showing the title when toolbar expanded & collapsed
@@ -236,8 +234,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             getLoaderManager().initLoader(21,null,this);
-            TextView smalltxt = (TextView) findViewById(R.id.movie_desc_small);
-            TextView bigtxt = (TextView) findViewById(R.id.movie_desc_big);
+            TextView smalltxt = findViewById(R.id.movie_desc_small);
+            TextView bigtxt = findViewById(R.id.movie_desc_big);
             smalltxt.setText("Popular Movies");
             bigtxt.setText("Poplar Movies of all time");
 
@@ -245,8 +243,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         if (id == R.id.action_setting) {
             getLoaderManager().initLoader(12,null,this);
-            TextView smalltxt = (TextView) findViewById(R.id.movie_desc_small);
-            TextView bigtxt = (TextView) findViewById(R.id.movie_desc_big);
+            TextView smalltxt = findViewById(R.id.movie_desc_small);
+            TextView bigtxt = findViewById(R.id.movie_desc_big);
             smalltxt.setText(R.string.Movie_small_desc_top);
             bigtxt.setText(R.string.Movie_big_desc_top);
 
@@ -255,8 +253,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         if (id == R.id.favorite) {
             getLoaderManager().initLoader(1000, null, this);
-            TextView smalltxt = (TextView) findViewById(R.id.movie_desc_small);
-            TextView bigtxt = (TextView) findViewById(R.id.movie_desc_big);
+            TextView smalltxt = findViewById(R.id.movie_desc_small);
+            TextView bigtxt = findViewById(R.id.movie_desc_big);
             smalltxt.setText("Favourites");
             bigtxt.setText("Your Favourite Movies ");
         }

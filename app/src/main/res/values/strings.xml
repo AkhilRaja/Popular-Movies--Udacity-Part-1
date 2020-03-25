@@ -3,16 +3,13 @@
     <string name="action_settings">Most Popular</string>
     <string name="action_settings_fav">Favourites</string>
     <string name="action_setting">Top Rated</string>
-    <string name="action_add_favourite">Add to Favourites</string>
-    <string name="action_play_next">Next Movie</string>
     <string name="backdrop_title">Top Rated</string>
     <string name="backdrop_subtitle">Top Rated Movies of All Time</string>
     <string name="title_activity_detail">Detail</string>
     <string name="Movie_small_desc_top">Top Rated</string>
-    <string name="Movie_small_desc_most">Most Popular</string>
 
     <string name="Movie_big_desc_top">Top Rated Movies of All Time</string>
-    <string name="Movie_big_desc_most">Most Popular Movies Now</string>
+    <string name="trailers">Trailers:</string>
 
 
 </resources>

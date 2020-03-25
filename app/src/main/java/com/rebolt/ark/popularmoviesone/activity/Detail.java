@@ -12,23 +12,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import com.bumptech.glide.Glide;
 import com.rebolt.ark.popularmoviesone.R;
-import com.rebolt.ark.popularmoviesone.adapter.MovieAdapter;
 import com.rebolt.ark.popularmoviesone.model.Movie;
-import com.rebolt.ark.popularmoviesone.model.MoviesResponse;
 import com.rebolt.ark.popularmoviesone.model.ReviewModel;
 import com.rebolt.ark.popularmoviesone.model.ReviewResponse;
 import com.rebolt.ark.popularmoviesone.model.VideoModel;
 import com.rebolt.ark.popularmoviesone.model.VideoResponse;
 import com.rebolt.ark.popularmoviesone.rest.ApiClient;
 import com.rebolt.ark.popularmoviesone.rest.ApiInterface;
-
 import java.util.List;
 
 import retrofit2.Call;
@@ -48,7 +43,7 @@ public class Detail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar ab = getSupportActionBar();
@@ -80,7 +75,7 @@ public class Detail extends AppCompatActivity {
                 int statuscode = response.code();
                 videoModels = response.body().getResults();
 
-                LinearLayout layout = (LinearLayout) findViewById(R.id.linear_trailers);
+                LinearLayout layout = findViewById(R.id.linear_trailers);
                 layout.setOrientation(LinearLayout.VERTICAL);
 
                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(100,100);
@@ -151,7 +146,7 @@ public class Detail extends AppCompatActivity {
                 }
                 for(int k=1;k<=videoModels.size();k++)
                 {
-                    Button button = (Button) findViewById(k+1);
+                    Button button = findViewById(k+1);
                     final int finalK = k-1;
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -181,20 +176,20 @@ public class Detail extends AppCompatActivity {
 
 
         ImageView backdrop;
-        backdrop = (ImageView) findViewById(R.id.backdrop);
+        backdrop = findViewById(R.id.backdrop);
 
         ImageView poster;
-        poster = (ImageView) findViewById(R.id.poster_detail);
+        poster = findViewById(R.id.poster_detail);
 
 
         TextView title;
-        title = (TextView) findViewById(R.id.title_detail);
+        title = findViewById(R.id.title_detail);
 
         TextView date;
-        date = (TextView) findViewById(R.id.date_detail);
+        date = findViewById(R.id.date_detail);
 
         TextView overview;
-        overview = (TextView) findViewById(R.id.description_detail);
+        overview = findViewById(R.id.description_detail);
 
 
         Log.d("THis",obj.getBackdropPath());
